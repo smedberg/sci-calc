@@ -5,7 +5,7 @@ class ResultDisplay extends React.Component {
   render() {
     return (
         <p className="Result" data-testid="result-display-area">
-          Results displayed here
+          {this.props.result}
         </p>
     );
   }
