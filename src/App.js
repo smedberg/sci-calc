@@ -14,7 +14,7 @@ class App extends React.Component {
 
   render() {
     const display = [];
-    if (this.state.formula != '') {
+    if (this.state.formula !== '') {
       const result = Calculator.calculate(this.state.formula);
       for (let i = 0; i < result.length; i++) {
         display.push(<ResultDisplay resultValue={result[i][0]} units={result[i][1]} />);
