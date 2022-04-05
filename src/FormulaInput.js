@@ -17,7 +17,6 @@ class FormulaInput extends React.Component {
           className="FormulaInput"
           placeholder="Enter formula here"
           rows="10"
-          cols="60"
           data-testid="formula-text-area">
         </textarea>
     );
