@@ -25,7 +25,6 @@ window.SCIPARSER_CONSTANTS =  new Map([
 
 class Calculator {
   static calculate(text) {
-    var resultText, units;
     // TODO: If a line sets a constant, add it 
     // to window.SCIPARSER_CONSTANTS like this:
     // window.SCIPARSER_CONSTANTS.set("F", [3, "m/s"]);
