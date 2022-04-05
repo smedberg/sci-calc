@@ -15,7 +15,7 @@ class FormulaInput extends React.Component {
           value={this.state.body}
           onChange={e => this.state.onChange(e.target.value)}
           className="FormulaInput"
-          placeholder="Enter formula here"
+          placeholder="Enter formula here, e.g. '4 kg * 3 m/s'"
           rows="10"
           data-testid="formula-text-area">
         </textarea>
