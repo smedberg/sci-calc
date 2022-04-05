@@ -13,23 +13,17 @@ class App extends React.Component {
   }
 
   render() {
-    var resultText = '', units = '';
+    const display = [];
     if (this.state.formula != '') {
-      try {
-        const result = Calculator.calculate(this.state.formula);
-        console.log("Calculator result: ", result);
-        resultText = result[0];
-        units = result[1];
-      } catch(error) {
-        console.log(error);
-        resultText = error.message;
-        units = '';
+      const result = Calculator.calculate(this.state.formula);
+      for (let i = 0; i < result.length; i++) {
+        display.push(<ResultDisplay resultText={result[i][0]} units={result[i][1]} />);
       }
     }
     return (
       <span>
         <FormulaInput onChange={ changedFormula => { this.setState({formula: changedFormula }) } } />
-        <ResultDisplay resultText={resultText} units={units} />
+        {display}
       </span>
     );
   }
