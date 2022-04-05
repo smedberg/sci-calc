@@ -4,7 +4,7 @@ import { parse as SciParse } from './SciGrammar'
 // arguments, but we share a global environment.
 // We can also dynamically modify this map, e.g.
 // by adding new constants at runtime.
-window.SCIPARSER_CONSTANTS =  new Map([
+const SCIPARSER_CONSTANTS =  new Map([
   ["Pi", [3.14159, "untyped"], "Pi"],
   ["c", [2.99792e8, "m/s"], "Speed of Light"],
   ["e", [1.60218e-19, "C"], "Elementary Charge"],
@@ -23,16 +23,32 @@ window.SCIPARSER_CONSTANTS =  new Map([
   ["D", [3.336e-30, "Cm"], "Debye"]
 ]);
 
+const SETTER_LINE_REGEXP = /([a-zA-Z]+) *= *(.*)/;
+
 class Calculator {
   static calculate(text) {
-    // TODO: If a line sets a constant, add it 
-    // to window.SCIPARSER_CONSTANTS like this:
-    // window.SCIPARSER_CONSTANTS.set("F", [3, "m/s"]);
+    // Copy the constant set of constants into a map that we
+    // may modify. We do NOT want to modify the original.
+    // We're setting it on "window" so that the parser
+    // code can read it.
+    window.SCIPARSER_CONSTANTS = new Map(SCIPARSER_CONSTANTS);
     let result = [];
     const lines = text.split('\n');
     for (let i = 0; i < lines.length; i++) {
       try {
-        result.push(SciParse(lines[i]));
+        const line = lines[i];
+        const match = SETTER_LINE_REGEXP.exec(line);
+        let parsedLine = [];
+        if (match) {
+          // We found a line that's a "setter"
+          parsedLine = SciParse(match[2]);
+          // Copy the value of the line to the global set of constants,
+          // overwriting any existing value
+          window.SCIPARSER_CONSTANTS.set(match[1], parsedLine);
+        } else {
+          parsedLine = SciParse(line);
+        }
+        result.push(parsedLine);
       } catch (error) {
         result.push([error.message, '']);
       }
