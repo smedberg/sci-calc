@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import FormulaInput from './FormulaInput';
 import ResultDisplay from './ResultDisplay';
+import parse from './SciGrammer'
 
 class App extends React.Component {
   constructor() {
@@ -12,11 +13,20 @@ class App extends React.Component {
   }
 
   render() {
-    let result = this.state.formula; // TODO: Parse, transform
+    var resultText, units;
+    try {
+      const parsed = parse.parse(this.state.formula);
+      resultText = parsed[0];
+      units = parsed[1];
+    } catch(error) {
+      console.log(error);
+      resultText = error.message;
+      units = '';
+    }
     return (
       <span>
         <FormulaInput onChange={ changedFormula => { this.setState({formula: changedFormula }) } } />
-        <ResultDisplay result={result} />
+        <ResultDisplay resultText={resultText} units={units} />
       </span>
     );
   }

@@ -5,7 +5,7 @@ class ResultDisplay extends React.Component {
   render() {
     return (
         <p className="Result" data-testid="result-display-area">
-          {this.props.result}
+          {this.props.resultText} {this.props.units}
         </p>
     );
   }
