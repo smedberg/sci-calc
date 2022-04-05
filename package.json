@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "pegjs -o src/SciGrammer.js src/SciGrammer.pegjs; CI=false react-scripts build",
+    "build": "pegjs -o src/SciGrammar.js src/SciGrammar.pegjs; CI=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",

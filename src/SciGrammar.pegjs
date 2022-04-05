@@ -2,13 +2,12 @@
 // ==========================
 //
 // Accepts expressions like "1.45e-1 kg * 39.1666666667 m/s + 3.4 kgm/s" and computes their value.
+//
+// NOTE: We'll read from a global map named window.SCIPARSER_CONSTANTS to discover any
+// global constants which should be available to calculations.  If the global map does
+// not exist, no constants are defined.
 {
-	const UNTYPED = "untyped";
-    var CONSTANTS =  new Map([
-    	["C", [2.99792e8, "M/S"]],
-        ["Pi", [3.14159, UNTYPED]],
-        ["E", [1.60218e-19, "C"]]
-    ]);
+  const UNTYPED = "untyped";
 }
 
 Expression
@@ -70,14 +69,18 @@ Factor
 
 Constant "constant"
   = _ chars:([A-Za-z]+) {
-  	const constName = chars.join('');
-  	console.log("In Constant, constName: ", constName);
-    if (CONSTANTS.has(constName)) {
-    	const constValue = CONSTANTS.get(constName)
-  		console.log("In Constant, found value: ", constValue);
-    	return constValue;
+    if (window.SCIPARSER_CONSTANTS  == undefined) {
+      expected("predefined constant");
+    } else {
+      const constName = chars.join('');
+
+      if (window.SCIPARSER_CONSTANTS.has(constName)) {
+        const constValue = window.SCIPARSER_CONSTANTS.get(constName)
+        console.log("In Constant, found value: ", constValue);
+        return constValue;
+      }
+      expected("predefined constant");
     }
-    expected("predefined constant");
   }
 
 TypedNumber
