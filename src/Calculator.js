@@ -57,8 +57,8 @@ class Calculator {
         }
       }
     }
-    return result;
+    return [result, window.SCIPARSER_CONSTANTS];
   }
 }
 
-export default Calculator;
+export {SCIPARSER_CONSTANTS, Calculator}
