@@ -1,3 +1,39 @@
+# What is this?
+
+It's a textarea based scientific calculator.  Visit the [Github Pages deploy](https://smedberg.github.io/sci-calc/index.html) and enter a formula.  It handles simple calculations, tracks units, and includes support for constants.  For example, you can enter:
+```
+mass = 3 kg
+velocity = 0.5 * c
+momentum = mass * velocity
+```
+and it will calculate
+```
+momentum = 449688000 kg⋅(m/s)
+```
+
+# Development
+
+## Commands
+
+* `npm start` to start local web server
+* `pegjs -o src/SciGrammar.js src/SciGrammar.pegjs` to manually regenerate the parser from SciGrammar.pegjs
+* `npm run test` to run tests locally
+* `npm run build` to create optimized build
+* `npm run deploy` to deploy to Github Pages
+
+## Technology
+
+Calculations are performed by parsing the text area line by line.  Parsing is done via a parser defined in src/SciGrammar.pegjs, which is compiled to Javascript code via [PegJS](https://github.com/pegjs/pegjs).  The parser does the calculations and combines units, returning a tuple of number and units (units is a string.)
+
+## Future work
+
+* Normalize and reduce units
+* Calculate and track significant figures
+* Add more advanced calculations, e.g. sin, arcsin, pow, etc.
+
+
+# Legacy documentation
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
