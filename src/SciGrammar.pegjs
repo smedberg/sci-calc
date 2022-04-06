@@ -76,7 +76,6 @@ Constant "constant"
 
       if (window.SCIPARSER_CONSTANTS.has(constName)) {
         const constValue = window.SCIPARSER_CONSTANTS.get(constName)
-        console.log("In Constant, found value: ", constValue);
         return constValue;
       }
       expected("predefined constant");
@@ -86,7 +85,6 @@ Constant "constant"
 TypedNumber
   = num:Number [ \t\n\r]* units:([a-zA-Z][a-zA-Z/0-9-^]*) {
     const joinedUnits = units[0] + units[1].join('');
-  	console.log("In TypedNumber, number: ", num, ", units: ", joinedUnits);
     return [num, joinedUnits];
   }
   
@@ -106,10 +104,8 @@ Float "float"
   
   
 Sci "scientific notation"
-  = _ [-+]?[0-9]+(.[0-9]+)? "e"i [-+]?[0-9]+ { 
-  	//console.log(text());
+  = _ [-+]?[0-9]+(.[0-9]+)? "e"i [-+]?[0-9]+ {
   	const m = /([-+]?[0-9]+(.[0-9]+)?)[eE]([-+]?[0-9]+)/.exec(text());
-    //console.log(m[1], m[2], m[3], m);
     return parseFloat(m[1], 10) * Math.pow(10, parseInt(m[3]));
    }
 

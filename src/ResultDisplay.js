@@ -4,7 +4,7 @@ import './ResultDisplay.css';
 class ResultDisplay extends React.Component {
   render() {
     let resultValue = this.props.resultValue;
-    if (!isNaN(resultValue)) {
+    if (!isNaN(resultValue) && '' !== resultValue) {
       resultValue = resultValue.toExponential();
     }
     return (
