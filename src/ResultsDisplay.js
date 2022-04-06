@@ -27,10 +27,10 @@ class ResultsDisplay extends React.Component {
 
 
     return (
-      <span data-testid="results-display-area">
+      <div data-testid="results-display-area">
         Results:
         {display}
-      </span>
+      </div>
     );
   }
 }
