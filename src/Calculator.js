@@ -18,8 +18,8 @@ const SCIPARSER_CONSTANTS =  new Map([
   ["a0", [5.29177e-11, "m"], "Bohr Radius"],
   ["e0", [8.85419e-12, "C^2/Jm"], "Vacuum Permittivity"],
   ["Rh", [13.6057, "eV"], "Rydberg Constant"],
-  ["amu", [1.66054e-27, "kg"], "Atomic Mass"],
-  ["eV", [1.60218e-19, "J"], "Electron Volt"],
+  ["amu", [1.66054e-27, "kg/amu"], "Atomic Mass"],
+  ["eV", [1.60218e-19, "J/eV"], "Electron Volt"],
   ["D", [3.336e-30, "Cm"], "Debye"]
 ]);
 
@@ -35,22 +35,26 @@ class Calculator {
     let result = [];
     const lines = text.split('\n');
     for (let i = 0; i < lines.length; i++) {
-      try {
-        const line = lines[i];
-        const match = SETTER_LINE_REGEXP.exec(line);
-        let parsedLine = [];
-        if (match) {
-          // We found a line that's a "setter"
-          parsedLine = SciParse(match[2]);
-          // Copy the value of the line to the global set of constants,
-          // overwriting any existing value
-          window.SCIPARSER_CONSTANTS.set(match[1], parsedLine);
-        } else {
-          parsedLine = SciParse(line);
+      const line = lines[i];
+      if (line.trim() === '') {
+        result.push(['(blank)', '']);
+      } else {
+        try {
+          const match = SETTER_LINE_REGEXP.exec(line);
+          let parsedLine = [];
+          if (match) {
+            // We found a line that's a "setter"
+            parsedLine = SciParse(match[2]);
+            // Copy the value of the line to the global set of constants,
+            // overwriting any existing value
+            window.SCIPARSER_CONSTANTS.set(match[1], parsedLine);
+          } else {
+            parsedLine = SciParse(line);
+          }
+          result.push(parsedLine);
+        } catch (error) {
+          result.push([error.message, '']);
         }
-        result.push(parsedLine);
-      } catch (error) {
-        result.push([error.message, '']);
       }
     }
     return result;
