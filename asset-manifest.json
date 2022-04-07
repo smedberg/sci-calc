@@ -1,7 +1,7 @@
 {
   "main.css": "/sci-calc/static/css/main.2776026d.chunk.css",
-  "main.js": "/sci-calc/static/js/main.a5eefcd7.chunk.js",
-  "main.js.map": "/sci-calc/static/js/main.a5eefcd7.chunk.js.map",
+  "main.js": "/sci-calc/static/js/main.0ad18ef3.chunk.js",
+  "main.js.map": "/sci-calc/static/js/main.0ad18ef3.chunk.js.map",
   "static/js/1.709d58a2.chunk.js": "/sci-calc/static/js/1.709d58a2.chunk.js",
   "static/js/1.709d58a2.chunk.js.map": "/sci-calc/static/js/1.709d58a2.chunk.js.map",
   "static/js/2.3022d2b0.chunk.js": "/sci-calc/static/js/2.3022d2b0.chunk.js",
@@ -10,6 +10,6 @@
   "runtime~main.js.map": "/sci-calc/static/js/runtime~main.0d34cf1c.js.map",
   "static/css/main.2776026d.chunk.css.map": "/sci-calc/static/css/main.2776026d.chunk.css.map",
   "index.html": "/sci-calc/index.html",
-  "precache-manifest.099f81143226101b97f806607c88eb7c.js": "/sci-calc/precache-manifest.099f81143226101b97f806607c88eb7c.js",
+  "precache-manifest.7f78dfe88f70f909ca2d1873133579ec.js": "/sci-calc/precache-manifest.7f78dfe88f70f909ca2d1873133579ec.js",
   "service-worker.js": "/sci-calc/service-worker.js"
 }
