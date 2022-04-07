@@ -78,65 +78,65 @@ UnaryFunc "unaryfunc"
 
     switch (funcName) {
       case "sin":
-        return [Math.sin(expr[0]), UNTYPED];
+        return [Math.sin(value), UNTYPED];
       case "cos":
-        return [Math.cos(expr[0]), UNTYPED];
+        return [Math.cos(value), UNTYPED];
       case "tan":
-        return [Math.tan(expr[0]), UNTYPED];
+        return [Math.tan(value), UNTYPED];
       case "abs":
-        return [Math.abs(expr[0]), UNTYPED];
+        return [Math.abs(value), UNTYPED];
       case "acos":
-        return [Math.acos(expr[0]), UNTYPED];
+        return [Math.acos(value), UNTYPED];
       case "acosh":
-        return [Math.acosh(expr[0]), UNTYPED];
+        return [Math.acosh(value), UNTYPED];
       case "asin":
-        return [Math.asin(expr[0]), UNTYPED];
+        return [Math.asin(value), UNTYPED];
       case "asinh":
-        return [Math.asinh(expr[0]), UNTYPED];
+        return [Math.asinh(value), UNTYPED];
       case "atan":
-        return [Math.atan(expr[0]), UNTYPED];
+        return [Math.atan(value), UNTYPED];
       case "atanh":
-        return [Math.atanh(expr[0]), UNTYPED];
+        return [Math.atanh(value), UNTYPED];
       case "cbrt":
-        return [Math.cbrt(expr[0]), UNTYPED];
+        return [Math.cbrt(value), UNTYPED];
       case "ceil":
-        return [Math.ceil(expr[0]), UNTYPED];
+        return [Math.ceil(value), UNTYPED];
       case "clz32":
-        return [Math.clz32(expr[0]), UNTYPED];
+        return [Math.clz32(value), UNTYPED];
       case "cos":
-        return [Math.cos(expr[0]), UNTYPED];
+        return [Math.cos(value), UNTYPED];
       case "cosh":
-        return [Math.cosh(expr[0]), UNTYPED];
+        return [Math.cosh(value), UNTYPED];
       case "exp":
-        return [Math.exp(expr[0]), UNTYPED];
+        return [Math.exp(value), UNTYPED];
       case "expm1":
-        return [Math.expm1(expr[0]), UNTYPED];
+        return [Math.expm1(value), UNTYPED];
       case "floor":
-        return [Math.floor(expr[0]), UNTYPED];
+        return [Math.floor(value), UNTYPED];
       case "fround":
-        return [Math.fround(expr[0]), UNTYPED];
+        return [Math.fround(value), UNTYPED];
       case "log":
-        return [Math.log(expr[0]), UNTYPED];
+        return [Math.log(value), UNTYPED];
       case "log1p":
-        return [Math.log1p(expr[0]), UNTYPED];
+        return [Math.log1p(value), UNTYPED];
       case "log10":
-        return [Math.log10(expr[0]), UNTYPED];
+        return [Math.log10(value), UNTYPED];
       case "log2":
-        return [Math.log2(expr[0]), UNTYPED];
+        return [Math.log2(value), UNTYPED];
       case "round":
-        return [Math.round(expr[0]), UNTYPED];
+        return [Math.round(value), UNTYPED];
       case "sin":
-        return [Math.sin(expr[0]), UNTYPED];
+        return [Math.sin(value), UNTYPED];
       case "sinh":
-        return [Math.sinh(expr[0]), UNTYPED];
+        return [Math.sinh(value), UNTYPED];
       case "sqrt":
-        return [Math.sqrt(expr[0]), UNTYPED];
+        return [Math.sqrt(value), UNTYPED];
       case "tan":
-        return [Math.tan(expr[0]), UNTYPED];
+        return [Math.tan(value), UNTYPED];
       case "tanh":
-        return [Math.tanh(expr[0]), UNTYPED];
+        return [Math.tanh(value), UNTYPED];
       case "trunc":
-        return [Math.trunc(expr[0]), UNTYPED];
+        return [Math.trunc(value), UNTYPED];
       default:
         expected("unrecognized unary function '" + funcName + "'");
     }
@@ -158,7 +158,7 @@ Constant "constant"
   }
 
 TypedNumber "typednumber"
-  = num:Number [ \t\n\r]* units:([a-zA-Z][a-zA-Z/0-9-^]*) {
+  = num:Number [ \t\n\r]+ units:([a-zA-Z][a-zA-Z/0-9-^]*) {
     const joinedUnits = units[0] + units[1].join('');
     return [num, joinedUnits];
   }
@@ -173,7 +173,7 @@ Number "number"
 
 Integer "integer"
   = ws digits:[0-9]+ {
-    return parseInt(digits, 10);
+    return parseInt(text(), 10);
   }
   
 Float "float"
@@ -183,7 +183,7 @@ Float "float"
   
   
 Sci "scientific notation"
-  = ws [-+]?[0-9]+(.[0-9]+)? "e"i [-+]?[0-9]+ {
+  = ws [-+]?[0-9]+("." [0-9]?)? "e"i [-+]?[0-9]+ {
   	const m = /([-+]?[0-9]+(.[0-9]+)?)[eE]([-+]?[0-9]+)/.exec(text());
     return parseFloat(m[1], 10) * Math.pow(10, parseInt(m[3]));
    }
