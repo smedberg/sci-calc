@@ -21,7 +21,6 @@ class ConstantsDisplay extends React.Component {
       const constantInfo = currentConstants.get(constantKey);
       const constantValue = constantInfo[0];
       const constantUnits = constantInfo[1];
-      console.log("constantKey: ", constantKey, ", info: ", constantInfo);
       constants.push(<ConstantDisplay symbol={constantKey} value={constantValue} units={constantUnits} key={i}/>);
     }
 
