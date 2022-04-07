@@ -172,7 +172,7 @@ Number "number"
   = Sci /Float /Integer
 
 Integer "integer"
-  = ws digits:[0-9]+ {
+  = ws [-+]?[0-9]+ {
     return parseInt(text(), 10);
   }
   
@@ -183,7 +183,7 @@ Float "float"
   
   
 Sci "scientific notation"
-  = ws [-+]?[0-9]+("." [0-9]?)? "e"i [-+]?[0-9]+ {
+  = ws [-+]?[0-9]+("." [0-9]*)? "e" [-+]?[0-9]+ {
   	const m = /([-+]?[0-9]+(.[0-9]+)?)[eE]([-+]?[0-9]+)/.exec(text());
     return parseFloat(m[1], 10) * Math.pow(10, parseInt(m[3]));
    }
