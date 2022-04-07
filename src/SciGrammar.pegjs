@@ -71,7 +71,7 @@ Grouped "grouped"
     return expr;
   }
 
-UnaryFunc "unaryfunc"
+UnaryFunc "unary function"
   = func:([a-z][a-z0-9]+) ws "(" ws expr:(Expression) close:(ws ")") {
     const funcName = func[0] + func[1].join('');
     const value = expr[0];
@@ -144,7 +144,7 @@ UnaryFunc "unaryfunc"
 
 Constant "constant"
   = ws chars:([A-Za-z]+) {
-    if (window.SCIPARSER_CONSTANTS  == undefined) {
+    if (window.SCIPARSER_CONSTANTS == undefined) {
       expected("predefined constant");
     } else {
       const constName = chars.join('');
@@ -157,13 +157,13 @@ Constant "constant"
     }
   }
 
-TypedNumber "typednumber"
+TypedNumber "typed number"
   = num:Number [ \t\n\r]+ units:([a-zA-Z][a-zA-Z/0-9-^]*) {
     const joinedUnits = units[0] + units[1].join('');
     return [num, joinedUnits];
   }
   
-UntypedNumber "untypednumber"
+UntypedNumber "untyped number"
   = num:Number {
     return [num, UNTYPED];
   }
