@@ -194,6 +194,23 @@ it('handles division', () => {
   ]);
 });
 
+it('handles exponentiation', () => {
+  runTests([
+    {
+      input: '2 m ^ 2',
+      expectedCalcs: [[Math.pow(2, 2), '(m)^2']]
+    },
+    {
+      input: '(2 m * 5 s) ^ (2 + 3 * 4)',
+      expectedCalcs: [[Math.pow(2 * 5, (2 + 3 * 4)), '(m⋅(s))^14']]
+    },
+    {
+      input: '2 + 3 ^ 4 * 5',
+      expectedCalcs: [[2 + Math.pow(3, 4) * 5, 'untyped']]
+    }
+  ]);
+});
+
 it('includes constants', () => {
   runTests([
     {
@@ -253,13 +270,13 @@ it('handles complex calculations', () => {
     {
       input: 'Z = 2\n' +
         'n=4\n' +
-        'energy = -1 * Rh * eV * Z * Z / (n * n)\n' +
+        'energy = -1 * Rh * eV * Z^2 / (n^2)\n' +
         '// energy = 5.4496951065e-19 J\n' +
         'lambda = h * c / (-1 * energy)\n' +
         '// lambda = 3.645053050895848e-7  m\n' +
         'Z=1\n' +
         'n = 4\n' +
-        'energyH = -1 * Rh * eV * Z * Z /(n * n)',
+        'energyH = -1 * Rh * eV * Z^2 /(n^2)',
       expectedCalcs: [
         [2, 'untyped'],
         [4, 'untyped'],

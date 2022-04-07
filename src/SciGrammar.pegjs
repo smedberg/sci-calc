@@ -1,4 +1,5 @@
 // Scientific Calculations Grammar, see https://pegjs.org/
+// Based on arithmetic example at https://github.com/pegjs/pegjs/blob/master/examples/arithmetics.pegjs
 // ==========================
 //
 // Accepts expressions like "1.45e-1 kg * 39.1666666667 m/s + 3.4 kgm/s" and computes their value.
@@ -32,7 +33,7 @@ Expression
     }
 
 Term
-  = head:Factor tail:(ws ("*" / "/") ws Factor)* {
+  = head:Exponent tail:(ws ("*" / "/") ws Exponent)* {
       return tail.reduce(function(result, element) {
         const numLeft = result[0];
         const numRight = element[3][0];
@@ -60,6 +61,20 @@ Term
           }
           return [numLeft / numRight, units];
         }
+      }, head);
+    }
+
+Exponent
+  = head:Factor tail:(ws "^" ws Factor)* {
+      return tail.reduce(function(result, element) {
+        const numLeft = result[0];
+        const numRight = element[3][0];
+        const unitLeft = result[1];
+        var units = UNTYPED;
+        if (unitLeft !== UNTYPED) {
+          units = '(' + unitLeft + ')^' + numRight
+        }
+        return [Math.pow(numLeft, numRight), units];
       }, head);
     }
 
