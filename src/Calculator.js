@@ -5,7 +5,8 @@ import { parse as SciParse } from './SciGrammar'
 // We can also dynamically modify this map, e.g.
 // by adding new constants at runtime.
 const SCIPARSER_CONSTANTS =  new Map([
-  ["Pi", [3.14159, "untyped"], "Pi"],
+  ["Pi", [Math.PI, "untyped"], "Pi"],
+  ["E", [Math.E, "untyped"], "Euler's Constant"],
   ["c", [2.99792e8, "m/s"], "Speed of Light"],
   ["e", [1.60218e-19, "C"], "Elementary Charge"],
   ["Me", [9.10938e-31, "kg"], "Electron Mass"],
@@ -53,7 +54,11 @@ class Calculator {
           }
           result.push(parsedLine);
         } catch (error) {
-          result.push([error.message, '']);
+          var errorMessage = error.message;
+          if (error.location && error.location.start && error.location.start.column) {
+            errorMessage = errorMessage + ' (column ' + error.location.start.column + ')';
+          }
+          result.push([errorMessage, '']);
         }
       }
     }
