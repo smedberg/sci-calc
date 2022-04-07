@@ -24,7 +24,7 @@ const SCIPARSER_CONSTANTS =  new Map([
   ["D", [3.336e-30, "Cm"], "Debye"]
 ]);
 
-const SETTER_LINE_REGEXP = /([a-zA-Z]+) *= *(.*)/;
+const SETTER_LINE_REGEXP = /([a-zA-Z][a-zA-Z0-9]*) *= *(.*)/;
 
 class Calculator {
   static calculate(text) {
@@ -37,7 +37,7 @@ class Calculator {
     const lines = text.split('\n');
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
-      if (line === '' || line.startsWith('\/\/')) {
+      if (line === '' || line.startsWith('//')) {
         result.push(['(blank)', '']);
       } else {
         try {

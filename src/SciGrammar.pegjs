@@ -20,13 +20,13 @@ Expression
         console.log("Handling addition, assuming that type ", result[1], " matches type ", element[3][1]);
         var units = unitLeft;
         if (unitLeft == UNTYPED) {
-        	units = element[3][1];
+          units = element[3][1];
         }
         if (element[1] === "+") {
-        	return [numLeft + numRight, units];
+          return [numLeft + numRight, units];
         }
         if (element[1] === "-") {
-        	return [numLeft - numRight, units];
+          return [numLeft - numRight, units];
         }
       }, head);
     }
@@ -39,26 +39,26 @@ Term
         const unitLeft = result[1];
         const unitRight = element[3][1];
         if (element[1] === "*") {
-        	var units;
-        	if (unitLeft == UNTYPED) {
-            	units = unitRight;
-            } else if (unitRight == UNTYPED) {
-            	units = unitLeft;
-            } else {
-            	units = unitLeft + '⋅(' + unitRight + ')';
-            }
-        	return [numLeft * numRight, units];
+          var units;
+          if (unitLeft == UNTYPED) {
+            units = unitRight;
+          } else if (unitRight == UNTYPED) {
+            units = unitLeft;
+          } else {
+            units = unitLeft + '⋅(' + unitRight + ')';
+          }
+          return [numLeft * numRight, units];
         }
         if (element[1] === "/") {
-        	var units;
-        	if (unitLeft == UNTYPED) {
-            	units = '1/(' + unitRight + ')';
-            } else if (unitRight == UNTYPED) {
-            	units = unitLeft;
-            } else {
-            	units = '(' + unitLeft + ')/(' + unitRight + ')';
-            }
-        	return [numLeft / numRight, units];
+          var units;
+          if (unitRight == UNTYPED) {
+            units = unitLeft;
+          } else if (unitLeft == UNTYPED) {
+            units = '1/(' + unitRight + ')';
+          } else {
+            units = '(' + unitLeft + ')/(' + unitRight + ')';
+          }
+          return [numLeft / numRight, units];
         }
       }, head);
     }
@@ -143,11 +143,11 @@ UnaryFunc "unary function"
   }
 
 Constant "constant"
-  = ws chars:([A-Za-z]+) {
+  = ws chars:([a-zA-Z][a-zA-Z0-9]*) {
     if (window.SCIPARSER_CONSTANTS == undefined) {
       expected("predefined constant");
     } else {
-      const constName = chars.join('');
+      const constName = chars[0] + chars[1].join('');
 
       if (window.SCIPARSER_CONSTANTS.has(constName)) {
         const constValue = window.SCIPARSER_CONSTANTS.get(constName)
@@ -184,7 +184,7 @@ Float "float"
   
 Sci "scientific notation"
   = ws [-+]?[0-9]+("." [0-9]*)? "e" [-+]?[0-9]+ {
-  	const m = /([-+]?[0-9]+(.[0-9]+)?)[eE]([-+]?[0-9]+)/.exec(text());
+    const m = /([-+]?[0-9]+(.[0-9]+)?)[eE]([-+]?[0-9]+)/.exec(text());
     return parseFloat(m[1], 10) * Math.pow(10, parseInt(m[3]));
    }
 
