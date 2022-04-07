@@ -36,8 +36,8 @@ class Calculator {
     let result = [];
     const lines = text.split('\n');
     for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      if (line.trim() === '') {
+      const line = lines[i].trim();
+      if (line === '' || line.startsWith('\/\/')) {
         result.push(['(blank)', '']);
       } else {
         try {
