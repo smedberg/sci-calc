@@ -132,7 +132,7 @@ it('handles multiplication', () => {
   runTests([
     {
       input: '2 m * 2 s',
-      expectedCalcs: [[2 * 2, 'm⋅(s)']]
+      expectedCalcs: [[2 * 2, '(m)⋅(s)']]
     },
     {
       input: '2 m * 0.5',
@@ -202,7 +202,7 @@ it('handles exponentiation', () => {
     },
     {
       input: '(2 m * 5 s) ^ (2 + 3 * 4)',
-      expectedCalcs: [[Math.pow(2 * 5, (2 + 3 * 4)), '(m⋅(s))^14']]
+      expectedCalcs: [[Math.pow(2 * 5, (2 + 3 * 4)), '((m)⋅(s))^14']]
     },
     {
       input: '2 + 3 ^ 4 * 5',
@@ -280,13 +280,13 @@ it('handles complex calculations', () => {
       expectedCalcs: [
         [2, 'untyped'],
         [4, 'untyped'],
-        [-5.4496951065e-19, 'eV⋅(J/eV)'],
+        [-5.4496951065e-19, '(eV)⋅(J/eV)'],
         ['(blank)', ''],
-        [3.645053050895848e-7, '(Js⋅(m/s))/(eV⋅(J/eV))'],
+        [3.645053050895848e-7, '((Js)⋅(m/s))/((eV)⋅(J/eV))'],
         ["(blank)", ""],
         [1, "untyped"],
         [4, "untyped"],
-        [-1.362423776625e-19, "eV⋅(J/eV)"]
+        [-1.362423776625e-19, "(eV)⋅(J/eV)"]
       ]
     }
   ]);

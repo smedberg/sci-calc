@@ -23,6 +23,7 @@ Expression
         if (unitLeft == UNTYPED) {
           units = element[3][1];
         }
+        units = units.replace(/ /g, '⋅').replace(/\*/g, '⋅');
         if (element[1] === "+") {
           return [numLeft + numRight, units];
         }
@@ -46,8 +47,9 @@ Term
           } else if (unitRight == UNTYPED) {
             units = unitLeft;
           } else {
-            units = unitLeft + '⋅(' + unitRight + ')';
+            units = '(' + unitLeft + ')⋅(' + unitRight + ')';
           }
+          units = units.replace(/ /g, '⋅').replace(/\*/g, '⋅');
           return [numLeft * numRight, units];
         }
         if (element[1] === "/") {
@@ -59,6 +61,7 @@ Term
           } else {
             units = '(' + unitLeft + ')/(' + unitRight + ')';
           }
+          units = units.replace(/ /g, '⋅').replace(/\*/g, '⋅');
           return [numLeft / numRight, units];
         }
       }, head);
@@ -79,7 +82,7 @@ Exponent
     }
 
 Factor
-  = UnaryFunc /Grouped /TypedNumber /UntypedNumber /Constant
+  = UnaryFunc /Grouped /GroupedTypedNumber  /TypedNumber /UntypedNumber /Constant
 
 Grouped "grouped"
   = "(" ws expr:Expression ws ")" {
@@ -172,8 +175,14 @@ Constant "constant"
     }
   }
 
+GroupedTypedNumber "grouped typed number"
+  = num:Number [ \t\n\r]+ '(' units:([a-zA-Z][a-zA-Z/0-9-^ *⋅]*) ')' {
+    const joinedUnits = units[0] + units[1].join('');
+    return [num, joinedUnits];
+  }
+
 TypedNumber "typed number"
-  = num:Number [ \t\n\r]+ units:([a-zA-Z][a-zA-Z/0-9-^]*) {
+  = num:Number [ \t\n\r]+ units:([a-zA-Z][a-zA-Z/0-9-^*⋅]*) {
     const joinedUnits = units[0] + units[1].join('');
     return [num, joinedUnits];
   }
