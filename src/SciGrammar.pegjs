@@ -9,16 +9,22 @@
 // not exist, no constants are defined.
 {
   const UNTYPED = "untyped";
+
+  function log() {
+    //console.log(...arguments);
+  }
 }
 
 Expression
   = head:Term tail:(ws ("+" / "-") ws Term)* {
+      log("In SciGrammar add/subtract processing, head is ", head, ", tail is ", tail);
       return tail.reduce(function(result, element) {
+        log("In SciGrammar add/subtract reduction, result is ", result, ", element is ", element);
         const numLeft = result[0];
         const numRight = element[3][0];
         const unitLeft = result[1];
         // TODO: Check if units of result[1] match units of element[3][1]
-        console.log("Handling addition, assuming that type ", result[1], " matches type ", element[3][1]);
+        log("Handling addition, assuming that type ", result[1], " matches type ", element[3][1]);
         var units = unitLeft;
         if (unitLeft == UNTYPED) {
           units = element[3][1];
@@ -35,7 +41,9 @@ Expression
 
 Term
   = head:Exponent tail:(ws ("*" / "/") ws Exponent)* {
+      log("In SciGrammar multiply/divide processing, head is ", head, ", tail is ", tail);
       return tail.reduce(function(result, element) {
+        log("In SciGrammar multiply/divide reduction, result is ", result, ", element is ", element);
         const numLeft = result[0];
         const numRight = element[3][0];
         const unitLeft = result[1];
@@ -69,7 +77,9 @@ Term
 
 Exponent
   = head:Factor tail:(ws "^" ws Factor)* {
+      log("In SciGrammar exponent processing, head is ", head, ", tail is ", tail);
       return tail.reduce(function(result, element) {
+        log("In SciGrammar exponent reduction, result is ", result, ", element is ", element);
         const numLeft = result[0];
         const numRight = element[3][0];
         const unitLeft = result[1];
@@ -86,11 +96,13 @@ Factor
 
 Grouped "grouped"
   = "(" ws expr:Expression ws ")" {
+    log("In SciGrammar group processing, expr is ", expr);
     return expr;
   }
 
 UnaryFunc "unary function"
   = func:([a-z][a-z0-9]+) ws "(" ws expr:(Expression) close:(ws ")") {
+    log("In SciGrammar unary function processing, func is ", func, ", expr is ", expr);
     const funcName = func[0] + func[1].join('');
     const value = expr[0];
 
@@ -162,6 +174,7 @@ UnaryFunc "unary function"
 
 Constant "constant"
   = ws chars:([a-zA-Z][a-zA-Z0-9]*) {
+    log("In SciGrammar constant processing, chars is ", chars);
     if (window.SCIPARSER_CONSTANTS == undefined) {
       expected("predefined constant");
     } else {
@@ -169,26 +182,31 @@ Constant "constant"
 
       if (window.SCIPARSER_CONSTANTS.has(constName)) {
         const constValue = window.SCIPARSER_CONSTANTS.get(constName)
+        log("Fount constant " + constName + " with value ", constValue);
         return constValue;
       }
+      log("Failed to find constant " + constName);
       expected("predefined constant");
     }
   }
 
 GroupedTypedNumber "grouped typed number"
   = num:Number [ \t\n\r]+ '(' units:([a-zA-Z][a-zA-Z/0-9-^ *⋅]*) ')' {
+    log("In SciGrammar GroupedTypedNumber processing, num is ", num, ", units is ", units);
     const joinedUnits = units[0] + units[1].join('');
     return [num, joinedUnits];
   }
 
 TypedNumber "typed number"
   = num:Number [ \t\n\r]+ units:([a-zA-Z][a-zA-Z/0-9-^*⋅]*) {
+    log("In SciGrammar TypedNumber processing, num is ", num, ", units is ", units);
     const joinedUnits = units[0] + units[1].join('');
     return [num, joinedUnits];
   }
   
 UntypedNumber "untyped number"
   = num:Number {
+    log("In SciGrammar UntypedNumber processing, num is ", num);
     return [num, UNTYPED];
   }
   
@@ -197,17 +215,20 @@ Number "number"
 
 Integer "integer"
   = ws [-+]?[0-9]+ {
+    log("In SciGrammar Integer processing, text is ", text());
     return parseInt(text(), 10);
   }
   
 Float "float"
   = ws [-+]?[0-9]+ "." [0-9]* {
+    log("In SciGrammar Float processing, text is ", text());
     return parseFloat(text(), 10);
   }
   
   
 Sci "scientific notation"
   = ws [-+]?[0-9]+("." [0-9]*)? "e" [-+]?[0-9]+ {
+    log("In SciGrammar Sci processing, text is ", text());
     const m = /([-+]?[0-9]+(.[0-9]+)?)[eE]([-+]?[0-9]+)/.exec(text());
     return parseFloat(m[1], 10) * Math.pow(10, parseInt(m[3]));
    }

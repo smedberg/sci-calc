@@ -22,5 +22,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-#generated file
+#generated files
 src/SciGrammar.js
+src/UnitsGrammar.js
