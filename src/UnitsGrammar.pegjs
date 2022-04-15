@@ -34,6 +34,13 @@
         return null;
       }
     }).filter(Boolean);
+
+    res.sort(function(x, y) {
+      if (x.exponent !== y.exponent) {
+        return y.exponent - x.exponent;
+      }
+      return x.units.localeCompare(y.units)
+    });
     log("In reduceUnits, returning ", res);
 
     return res;
@@ -88,7 +95,17 @@ Exponent
     }
 
 Factor
-  = Grouped /Units
+  = Grouped /Units /Reciprocal
+
+// This is a special case for units like "1/mol".  We do NOT handle things like "2/mol".
+Reciprocal
+  = "1/" groupedOrUnits:(Grouped /Units) {
+    for (var i = 0; i < groupedOrUnits.length; i++) {
+      const groupOrUnit = groupedOrUnits[i];
+      groupOrUnit.exponent = -1 * groupOrUnit.exponent;
+    }
+    return groupedOrUnits;
+  }
 
 Grouped "grouped"
   = "(" ws expr:Term ws ")" {

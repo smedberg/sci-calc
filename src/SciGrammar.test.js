@@ -175,7 +175,7 @@ it('handles division', () => {
     },
     {
       input: '0.5 / 2 s',
-      expectedCalcs: [0.5 / 2, '1/(s)']
+      expectedCalcs: [0.5 / 2, '(s)^-1']
     },
     {
       input: '1.1 / 1.1',
@@ -233,6 +233,26 @@ it('handles grouping', () => {
     {
       input: '2 + (3 * 4)',
       expectedCalcs: [2 + (3 * 4), 'untyped']
+    },
+    {
+      input: '3 C^2/(J*m)',
+      expectedCalcs: [3, 'C^2/(J*m)']
+    },
+    {
+      input: '3 C^2/(J*m)^2',
+      expectedCalcs: [3, 'C^2/(J*m)^2']
+    },
+    {
+      input: '3 C^-2/(J*m)^2',
+      expectedCalcs: [3, 'C^-2/(J*m)^2']
+    },
+    {
+      input: '3 C^2/(J*m)^-2',
+      expectedCalcs: [3, 'C^2/(J*m)^-2']
+    },
+    {
+      input: '8.854e-12 C^2/(J*m) * 3',
+      expectedCalcs: [2.6561999999999998e-11, 'C^2/(J⋅m)']
     }
   ]);
 });

@@ -65,7 +65,7 @@ Term
           if (unitRight == UNTYPED) {
             units = unitLeft;
           } else if (unitLeft == UNTYPED) {
-            units = '1/(' + unitRight + ')';
+            units = '(' + unitRight + ')^-1';
           } else {
             units = '(' + unitLeft + ')/(' + unitRight + ')';
           }
@@ -92,7 +92,7 @@ Exponent
     }
 
 Factor
-  = UnaryFunc /Grouped /GroupedTypedNumber  /TypedNumber /UntypedNumber /Constant
+  = Grouped /TypedNumber /UnaryFunc /UntypedNumber /Constant
 
 Grouped "grouped"
   = "(" ws expr:Expression ws ")" {
@@ -190,18 +190,29 @@ Constant "constant"
     }
   }
 
-GroupedTypedNumber "grouped typed number"
-  = num:Number [ \t\n\r]+ '(' units:([a-zA-Z][a-zA-Z/0-9-^ *⋅]*) ')' {
-    log("In SciGrammar GroupedTypedNumber processing, num is ", num, ", units is ", units);
-    const joinedUnits = units[0] + units[1].join('');
-    return [num, joinedUnits];
+TypedNumber "typed number"
+  = num:Number [ \t\n\r]+ units:Units {
+    return [num, units];
   }
 
-TypedNumber "typed number"
-  = num:Number [ \t\n\r]+ units:([a-zA-Z][a-zA-Z/0-9-^*⋅]*) {
-    log("In SciGrammar TypedNumber processing, num is ", num, ", units is ", units);
-    const joinedUnits = units[0] + units[1].join('');
-    return [num, joinedUnits];
+Units "units"
+  = head:(UngroupedUnits / GroupedUnits) tail:([*⋅/] (UngroupedUnits / GroupedUnits))* {
+    return text();
+  }
+
+UngroupedUnits "ungrouped units"
+  = head:Unit tail:([*⋅/]Unit)* {
+    return text();
+  }
+
+GroupedUnits "grouped units"
+  = "(" ws head:Unit tail:(ws [*⋅/ ] ws Unit)* ws ")" ([^][+-]?[0-9]+)? {
+    return text();
+  }
+
+Unit "unit"
+  = unit:([a-zA-Z]+ ([^][+-]?[0-9]+)?) {
+    return text();
   }
   
 UntypedNumber "untyped number"

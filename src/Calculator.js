@@ -1,4 +1,5 @@
 import { parse as SciParse } from './SciGrammar'
+import TypeSimplifier from './TypeSimplifier'
 
 // A global used in SciGrammar.pegjs.  We can't pass in
 // arguments, but we share a global environment.
@@ -12,16 +13,16 @@ const SCIPARSER_CONSTANTS =  new Map([
   ["Me", [9.10938e-31, "kg"], "Electron Mass"],
   ["Mp", [1.67262e-27, "kg"], "Proton Mass"],
   ["Mn", [1.67493e-27, "kg"], "Neutron Mass"],
-  ["h", [6.62607e-34, "Js"], "Planck's Constant"],
+  ["h", [6.62607e-34, "J⋅s"], "Planck's Constant"],
   ["Na", [6.02214e23, "1/mol"], "Avogadro's Number"],
-  ["R", [8.31446, "J/Kmol"], "Gas Constant"],
+  ["R", [8.31446, "J/(K⋅mol)"], "Gas Constant"],
   ["kB", [1.38065e-23, "J/K"], "Boltzmann's Constant"],
   ["a0", [5.29177e-11, "m"], "Bohr Radius"],
-  ["e0", [8.85419e-12, "C^2/Jm"], "Vacuum Permittivity"],
+  ["e0", [8.85419e-12, "C^2/(J⋅m)"], "Vacuum Permittivity"],
   ["Rh", [13.6057, "eV"], "Rydberg Constant"],
   ["amu", [1.66054e-27, "kg/amu"], "Atomic Mass"],
   ["eV", [1.60218e-19, "J/eV"], "Electron Volt"],
-  ["D", [3.336e-30, "Cm"], "Debye"]
+  ["D", [3.336e-30, "C⋅m"], "Debye"]
 ]);
 
 const SETTER_LINE_REGEXP = /([a-zA-Z][a-zA-Z0-9]*) *= *(.*)/;
@@ -41,17 +42,19 @@ class Calculator {
         result.push(['(blank)', '']);
       } else {
         try {
-          const match = SETTER_LINE_REGEXP.exec(line);
+          const setterMatch = SETTER_LINE_REGEXP.exec(line);
           let parsedLine = [];
-          if (match) {
+          if (setterMatch) {
             // We found a line that's a "setter"
-            parsedLine = SciParse(match[2]);
+            parsedLine = SciParse(setterMatch[2]);
             // Copy the value of the line to the global set of constants,
             // overwriting any existing value
-            window.SCIPARSER_CONSTANTS.set(match[1], parsedLine);
+            window.SCIPARSER_CONSTANTS.set(setterMatch[1], parsedLine);
           } else {
             parsedLine = SciParse(line);
           }
+
+          parsedLine[1] = TypeSimplifier.simplify(parsedLine[1]);
           result.push(parsedLine);
         } catch (error) {
           var errorMessage = error.message;

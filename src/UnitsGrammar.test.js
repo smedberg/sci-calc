@@ -61,7 +61,7 @@ it('parses units', () => {
     },
     {
       input: '(m s) s',
-      expectedResult: [{units: 'm', exponent: 1.0}, {units: 's', exponent: 2}]
+      expectedResult: [{units: 's', exponent: 2}, {units: 'm', exponent: 1.0}]
     },
     {
       input: '(m s)/s^2',
@@ -70,6 +70,30 @@ it('parses units', () => {
     {
       input: 's^2',
       expectedResult: [{units: 's', exponent: 2}]
+    },
+    {
+      input: 'C^2/(J*m)',
+      expectedResult: [{units: 'C', exponent: 2}, {units: 'J', exponent: -1}, {units: 'm', exponent: -1}]
+    },
+    {
+      input: 'C^2/(J*m)^2',
+      expectedResult: [{units: 'C', exponent: 2}, {units: 'J', exponent: -2}, {units: 'm', exponent: -2}]
+    },
+    {
+      input: 'C^-2/(J*m)^2',
+      expectedResult: [{units: 'C', exponent: -2}, {units: 'J', exponent: -2}, {units: 'm', exponent: -2}]
+    },
+    {
+      input: 'C^2/(J*m)^-2',
+      expectedResult: [{units: 'C', exponent: 2}, {units: 'J', exponent: 2}, {units: 'm', exponent: 2}]
+    },
+    {
+      input: '1/mol',
+      expectedResult: [{units: 'mol', exponent: -1}]
+    },
+    {
+      input: '1/(m mol)',
+      expectedResult: [{units: 'm', exponent: -1}, {units: 'mol', exponent: -1}]
     }
   ]);
 });
