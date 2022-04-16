@@ -49,7 +49,7 @@ it('simplifies', () => {
     },
     {
       input: '(km J C C km)/km^6',
-      expected: 'C^2⋅J/km^4'
+      expected: '(C^2⋅J)/km^4'
     },
     {
       input: '(km km km km km km)/km^6',
@@ -61,15 +61,15 @@ it('simplifies', () => {
     },
     {
       input: 'C^2/(J*m)',
-      expected: 'C^2/J⋅m'
+      expected: 'C^2/(J⋅m)'
     },
     {
       input: 'C^2/(J*m)^2',
-      expected: 'C^2/J^2⋅m^2'
+      expected: 'C^2/(J^2⋅m^2)'
     },
     {
       input: 'C^-2/(J*m)^2',
-      expected: '1/C^2⋅J^2⋅m^2'
+      expected: '1/(C^2⋅J^2⋅m^2)'
     },
     {
       input: 'C^2/(J*m)^-2',

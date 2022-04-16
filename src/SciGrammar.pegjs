@@ -185,33 +185,38 @@ Constant "constant"
         log("Fount constant " + constName + " with value ", constValue);
         return constValue;
       }
-      log("Failed to find constant " + constName);
+      log("In SciGrammar constant processing, failed to find constant " + constName);
       expected("predefined constant");
     }
   }
 
 TypedNumber "typed number"
   = num:Number [ \t\n\r]+ units:Units {
+    log("In SciGrammar TypedNumber, ", text());
     return [num, units];
   }
 
 Units "units"
   = head:(UngroupedUnits / GroupedUnits) tail:([*⋅/] (UngroupedUnits / GroupedUnits))* {
+    log("In SciGrammar Units, ", text());
     return text();
   }
 
 UngroupedUnits "ungrouped units"
   = head:Unit tail:([*⋅/]Unit)* {
+    log("In SciGrammar UngroupedUnits, ", text());
     return text();
   }
 
 GroupedUnits "grouped units"
-  = "(" ws head:Unit tail:(ws [*⋅/ ] ws Unit)* ws ")" ([^][+-]?[0-9]+)? {
+  = "(" ws Units ws ")" ([^][+-]?[0-9]+)? {
+    log("In SciGrammar GroupedUnits, ", text());
     return text();
   }
 
 Unit "unit"
   = unit:([a-zA-Z]+ ([^][+-]?[0-9]+)?) {
+    log("In SciGrammar Unit, ", text());
     return text();
   }
   

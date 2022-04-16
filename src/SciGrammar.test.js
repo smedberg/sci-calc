@@ -269,3 +269,12 @@ it('handles unary functions', () => {
     }
   ]);
 });
+
+it('handles other cases', () => {
+  runTests([
+    {
+      input: '1 (kg*(m/s)^2)/joule',
+      expectedCalcs: [1, '(kg*(m/s)^2)/joule']
+    }
+  ]);
+});

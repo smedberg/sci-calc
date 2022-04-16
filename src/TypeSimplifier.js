@@ -34,7 +34,15 @@ class TypeSimplifier {
     if (inNumerator) {
       retval = numerator.join('⋅');
     } else {
-      retval = numerator.join('⋅') + '/' + denominator.join('⋅');
+      let numeratorStr = numerator.join('⋅');
+      if (1 < numerator.length) {
+        numeratorStr = '(' + numeratorStr + ')';
+      }
+      let denominatorStr = denominator.join('⋅');
+      if (1 < denominator.length) {
+        denominatorStr = '(' + denominatorStr + ')';
+      }
+      retval = numeratorStr + '/' + denominatorStr;
     }
     
     return retval;

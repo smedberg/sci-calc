@@ -161,12 +161,12 @@ it('handles multiplication', () => {
     {
       input: 'Na = 6.02214e23 mol^-1\n' +
         '8.854e-12 C^2/(J*m) * 3',
-      expectedCalcs: [[6.02214e+23, '1/mol'], [2.6561999999999998e-11, 'C^2/J⋅m']]
+      expectedCalcs: [[6.02214e+23, '1/mol'], [2.6561999999999998e-11, 'C^2/(J⋅m)']]
     },
     {
       input: 'Na = 6.02214e23 mol^-1\n' +
         'Na * 8.854e-12 C^2/(J*m)',
-      expectedCalcs: [[6.02214e+23, '1/mol'], [5332002755999.999, 'C^2/J⋅m⋅mol']]
+      expectedCalcs: [[6.02214e+23, '1/mol'], [5332002755999.999, 'C^2/(J⋅m⋅mol)']]
     }
   ]);
 });

@@ -94,6 +94,10 @@ it('parses units', () => {
     {
       input: '1/(m mol)',
       expectedResult: [{units: 'm', exponent: -1}, {units: 'mol', exponent: -1}]
+    },
+    {
+      input: '(kg*(m/s)^2)/joule',
+      expectedResult: [{units: 'm', exponent: 2}, {units: 'kg', exponent: 1}, {units: 'joule', exponent: -1}, {units: 's', exponent: -2}]
     }
   ]);
 });
