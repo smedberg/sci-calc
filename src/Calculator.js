@@ -5,7 +5,7 @@ import TypeSimplifier from './TypeSimplifier'
 // arguments, but we share a global environment.
 // We can also dynamically modify this map, e.g.
 // by adding new constants at runtime.
-const SCIPARSER_CONSTANTS =  new Map([
+const SCIPARSER_CONSTANTS = [
   ["Pi", [Math.PI, "untyped"], "Pi"],
   ["E", [Math.E, "untyped"], "Euler's Constant"],
   ["c", [2.99792e8, "m/s"], "Speed of Light"],
@@ -23,7 +23,7 @@ const SCIPARSER_CONSTANTS =  new Map([
   ["amu", [1.66054e-27, "kg/amu"], "Atomic Mass"],
   ["eV", [1.60218e-19, "J/eV"], "Electron Volt"],
   ["D", [3.336e-30, "C⋅m"], "Debye"]
-]);
+];
 
 const SETTER_LINE_REGEXP = /([a-zA-Z][a-zA-Z0-9]*) *= *(.*)/;
 
@@ -33,7 +33,8 @@ class Calculator {
     // may modify. We do NOT want to modify the original.
     // We're setting it on "window" so that the parser
     // code can read it.
-    window.SCIPARSER_CONSTANTS = new Map(SCIPARSER_CONSTANTS);
+    window.SCIPARSER_SYMBOLS_MAP = new Map(SCIPARSER_CONSTANTS);
+    const variables = new Map();
     let result = [];
     const lines = text.split('\n');
     for (let i = 0; i < lines.length; i++) {
@@ -47,9 +48,12 @@ class Calculator {
           if (setterMatch) {
             // We found a line that's a "setter"
             parsedLine = SciParse(setterMatch[2]);
-            // Copy the value of the line to the global set of constants,
-            // overwriting any existing value
-            window.SCIPARSER_CONSTANTS.set(setterMatch[1], parsedLine);
+            // Copy the value of the line to the global set of symbols,
+            // overwriting any existing value.
+            // Also keep a map of ONLY the updated symbols, to display
+            // to users
+            window.SCIPARSER_SYMBOLS_MAP.set(setterMatch[1], parsedLine);
+            variables.set(setterMatch[1], parsedLine);
           } else {
             parsedLine = SciParse(line);
           }
@@ -65,8 +69,9 @@ class Calculator {
         }
       }
     }
-    return [result, window.SCIPARSER_CONSTANTS];
+    return [result, variables];
   }
 }
 
-export {SCIPARSER_CONSTANTS, Calculator}
+export default Calculator
+export {SCIPARSER_CONSTANTS}

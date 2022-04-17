@@ -213,8 +213,8 @@ it('handles exponentiation', () => {
   ]);
 });
 
-it('includes constants', () => {
-  window.SCIPARSER_CONSTANTS =  new Map([["Pi", [Math.PI, "untyped"], "Pi"]]);
+it('includes symbols', () => {
+  window.SCIPARSER_SYMBOLS_MAP =  new Map([["Pi", [Math.PI, "untyped"], "Pi"]]);
 
   runTests([
     {

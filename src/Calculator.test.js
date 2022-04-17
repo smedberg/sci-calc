@@ -1,5 +1,5 @@
 import React from 'react';
-import {Calculator} from './Calculator';
+import Calculator from './Calculator';
 
 function runTests(tests) {
   for (let i = 0; i < tests.length; i++) {

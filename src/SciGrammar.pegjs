@@ -4,9 +4,9 @@
 //
 // Accepts expressions like "1.45e-1 kg * 39.1666666667 m/s + 3.4 kgm/s" and computes their value.
 //
-// NOTE: We'll read from a global map named window.SCIPARSER_CONSTANTS to discover any
-// global constants which should be available to calculations.  If the global map does
-// not exist, no constants are defined.
+// NOTE: We'll read from a global map named window.SCIPARSER_SYMBOLS_MAP to discover any
+// global symbols which should be available to calculations.  If the global map does
+// not exist, no symbols are defined.
 {
   const UNTYPED = "untyped";
 
@@ -92,7 +92,7 @@ Exponent
     }
 
 Factor
-  = Grouped /TypedNumber /UnaryFunc /UntypedNumber /Constant
+  = Grouped /TypedNumber /UnaryFunc /UntypedNumber /Symbol
 
 Grouped "grouped"
   = "(" ws expr:Expression ws ")" {
@@ -172,21 +172,21 @@ UnaryFunc "unary function"
     }
   }
 
-Constant "constant"
+Symbol "symbol"
   = ws chars:([a-zA-Z][a-zA-Z0-9]*) {
-    log("In SciGrammar constant processing, chars is ", chars);
-    if (window.SCIPARSER_CONSTANTS == undefined) {
-      expected("predefined constant");
+    log("In SciGrammar symbol processing, chars is ", chars);
+    if (window.SCIPARSER_SYMBOLS_MAP == undefined) {
+      expected("predefined symbol");
     } else {
-      const constName = chars[0] + chars[1].join('');
+      const symbolName = chars[0] + chars[1].join('');
 
-      if (window.SCIPARSER_CONSTANTS.has(constName)) {
-        const constValue = window.SCIPARSER_CONSTANTS.get(constName)
-        log("Fount constant " + constName + " with value ", constValue);
+      if (window.SCIPARSER_SYMBOLS_MAP.has(symbolName)) {
+        const constValue = window.SCIPARSER_SYMBOLS_MAP.get(symbolName)
+        log("Found symbol " + symbolName + " with value ", constValue);
         return constValue;
       }
-      log("In SciGrammar constant processing, failed to find constant " + constName);
-      expected("predefined constant");
+      log("In SciGrammar symbol processing, failed to find symbol " + symbolName);
+      expected("predefined symbol " + symbolName);
     }
   }
 

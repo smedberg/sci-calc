@@ -3,7 +3,8 @@ import './App.css';
 import FormulaInput from './FormulaInput';
 import ResultsDisplay from './ResultsDisplay';
 import ConstantsDisplay from './ConstantsDisplay';
-import {Calculator, SCIPARSER_CONSTANTS} from './Calculator';
+import VariablesDisplay from './VariablesDisplay';
+import Calculator from './Calculator';
 
 class App extends React.Component {
   constructor() {
@@ -33,7 +34,7 @@ class App extends React.Component {
 
   render() {
     let results = [];
-    let constants = SCIPARSER_CONSTANTS;
+    let variables = new Map();
     if (this.state.formula !== '') {
 
       // Store the formula into the URL hash, so that it can be shared, etc.
@@ -43,13 +44,14 @@ class App extends React.Component {
 
       const calculated = Calculator.calculate(this.state.formula);
       results = calculated[0];
-      constants = calculated[1];
+      variables = calculated[1];
     }
     return (
       <span>
         <FormulaInput formula={this.state.formula} onChange={ changedFormula => { this.setState({formula: changedFormula }) } } />
         <ResultsDisplay results={results} />
-        <ConstantsDisplay constants={constants} />
+        <VariablesDisplay variables={variables} />
+        <ConstantsDisplay/>
       </span>
     );
   }
