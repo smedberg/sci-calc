@@ -13,26 +13,31 @@ class VariableDisplay extends React.Component {
 
 class VariablesDisplay extends React.Component {
   render() {
-    const variables = [];
-    const currentVariables = this.props.variables;
-    const currentVariableNames = [...currentVariables.keys()].sort();
-    for (let i = 0; i < currentVariableNames.length; i++) {
-      const variableKey = currentVariableNames[i];
-      const variableInfo = currentVariables.get(variableKey);
+    const variables = this.props.variables;
+
+    if (0 === variables.size) {
+      return (<span />);
+    }
+
+    const variableDisplays = [];
+    const variableNames = [...variables.keys()].sort();
+    for (let i = 0; i < variableNames.length; i++) {
+      const variableKey = variableNames[i];
+      const variableInfo = variables.get(variableKey);
       const variableValue = variableInfo[0];
       const variableUnits = variableInfo[1];
-      variables.push(<VariableDisplay symbol={variableKey} value={variableValue} units={variableUnits} key={variableKey}/>);
+      variableDisplays.push(<VariableDisplay symbol={variableKey} value={variableValue} units={variableUnits} key={variableKey}/>);
     }
 
     return (
-      <div>
-        Variables:
+      <div id='variables'>
+        <h1>Variables</h1>
         <table data-testid="variables-display-area">
           <thead><tr>
             <th>name</th><th>value</th><th>units</th>
           </tr></thead>
           <tbody>
-            {variables}
+            {variableDisplays}
           </tbody>
         </table>
       </div>

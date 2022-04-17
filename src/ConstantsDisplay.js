@@ -25,8 +25,8 @@ class ConstantsDisplay extends React.Component {
     }
 
     return (
-      <div>
-        Constants:
+      <div id='constants'>
+        <h1>Constants</h1>
         <table data-testid="constants-display-area">
           <thead><tr>
             <th>constant</th><th>value</th><th>units</th><th>description</th>
