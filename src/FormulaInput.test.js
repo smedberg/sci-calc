@@ -3,7 +3,8 @@ import { render, screen } from '@testing-library/react';
 import FormulaInput from './FormulaInput';
 
 test('renders text area', () => {
-  render(<FormulaInput />);
+  const testFormula = '2 kg'
+  render(<FormulaInput  formula={testFormula}/>);
   const formulaInput = screen.getByTestId("formula-text-area");
   expect(formulaInput).toBeInTheDocument();
 });
