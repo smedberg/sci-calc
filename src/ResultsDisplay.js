@@ -8,9 +8,9 @@ class ResultDisplay extends React.Component {
       resultValue = resultValue.toExponential();
     }
     return (
-        <li className="Result" data-testid="result-display-area">
-          {resultValue} {this.props.units}
-        </li>
+        <tr className="Result">
+          <td>{this.props.index + 1}</td><td>{resultValue}</td><td>{this.props.units}</td>
+        </tr>
     );
   }
 }
@@ -23,19 +23,24 @@ class ResultsDisplay extends React.Component {
       return (<span />);
     }
 
-    const display = [];
+    const resultsDisplays = [];
 
     for (let i = 0; i < results.length; i++) {
-      display.push(<ResultDisplay resultValue={results[i][0]} units={results[i][1]} key={i}/>);
+      resultsDisplays.push(<ResultDisplay index={i} resultValue={results[i][0]} units={results[i][1]} key={i}/>);
     }
 
 
     return (
-      <div data-testid="results-display-area">
-        <h1>Calculations</h1>
-        <ul>
-          {display}
-        </ul>
+      <div  id='results' data-testid="results-display-area">
+        <h1>Results</h1>
+        <table>
+          <thead><tr>
+            <th>row</th><th>value</th><th>units</th>
+          </tr></thead>
+          <tbody>
+            {resultsDisplays}
+          </tbody>
+        </table>
       </div>
     );
   }
