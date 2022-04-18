@@ -1,46 +1,32 @@
 import React from 'react';
 import './ResultsDisplay.css';
 
-class ResultDisplay extends React.Component {
-  render() {
-    let resultValue = this.props.resultValue;
-    if (!isNaN(resultValue) && '' !== resultValue) {
-      resultValue = resultValue.toExponential();
-    }
-    return (
-        <tr className="Result">
-          <td>{this.props.index + 1}</td><td>{resultValue}</td><td>{this.props.units}</td>
-        </tr>
-    );
-  }
-}
-
 class ResultsDisplay extends React.Component {
   render() {
     const results = this.props.results;
 
-    if (0 === results.length) {
+    let result = null;
+    // Display the last result- either a calculated value or
+    // an error.  Do not display blank lines, comments, etc.
+    for (let i = results.length - 1; i >= 0; i--) {
+      if (typeof(results[i][0]) =='number' || results[i][2] !== null) {
+        result = results[i];
+        break;
+      }
+    }
+
+    if (result === null) {
       return (<span />);
     }
 
-    const resultsDisplays = [];
-
-    for (let i = 0; i < results.length; i++) {
-      resultsDisplays.push(<ResultDisplay index={i} resultValue={results[i][0]} units={results[i][1]} key={i}/>);
+    let valueClass = 'value';
+    if (result[2] !== null) {
+      // There is an error
+      valueClass = 'error';
     }
-
-
     return (
       <div  id='results' data-testid="results-display-area">
-        <h1>Results</h1>
-        <table>
-          <thead><tr>
-            <th>row</th><th>value</th><th>units</th>
-          </tr></thead>
-          <tbody>
-            {resultsDisplays}
-          </tbody>
-        </table>
+        <span className={valueClass}>{result[0]} {result[1]}</span>
       </div>
     );
   }
