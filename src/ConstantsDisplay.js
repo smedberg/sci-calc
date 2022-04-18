@@ -25,7 +25,7 @@ class ConstantsDisplay extends React.Component {
     }
 
     return (
-      <div id='constants'>
+      <span id='constants'>
         <h1>Constants</h1>
         <table data-testid="constants-display-area">
           <thead><tr>
@@ -35,7 +35,7 @@ class ConstantsDisplay extends React.Component {
             {constants}
           </tbody>
         </table>
-      </div>
+      </span>
     );
   }
 }

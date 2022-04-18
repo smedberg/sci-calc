@@ -50,8 +50,8 @@ class App extends React.Component {
       <span>
         <FormulaInput formula={this.state.formula} results={results} onChange={ changedFormula => { this.setState({formula: changedFormula }) } } />
         <ResultsDisplay results={results} />
-        <VariablesDisplay variables={variables} />
         <ConstantsDisplay/>
+        <VariablesDisplay variables={variables} />
       </span>
     );
   }

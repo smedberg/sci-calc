@@ -8,13 +8,13 @@
 	color: white;
 	text-align: left;
 	vertical-align:top;
-	width: 30%;
+	width: 29%;
 	display: inline-block;
 	resize: none;
 }
 
 .FormulaInput {
-	width: 70%;
+	width: 69%;
 	resize: vertical;
 	display: inline-block;
 }

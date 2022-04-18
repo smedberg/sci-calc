@@ -30,7 +30,7 @@ class VariablesDisplay extends React.Component {
     }
 
     return (
-      <div id='variables'>
+      <span id='variables'>
         <h1>Variables</h1>
         <table data-testid="variables-display-area">
           <thead><tr>
@@ -40,7 +40,7 @@ class VariablesDisplay extends React.Component {
             {variableDisplays}
           </tbody>
         </table>
-      </div>
+      </span>
     );
   }
 }
