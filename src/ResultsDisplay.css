@@ -1,31 +1,9 @@
-#results table {
-    border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 400px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+#results .value {
+    font-weight:  bold;
+    color: green;
 }
 
-#results thead tr {
-    background-color: #00cca3;
-    color: #ffffff;
-    text-align: left;
-}
-
-#results th,
-#results td {
-    padding: 5px;
-}
-
-#results tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
-
-#results tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
-
-#results tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
+#results .error {
+    font-weight:  bold;
+    color: red;
 }

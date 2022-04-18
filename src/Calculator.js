@@ -22,7 +22,7 @@ const SCIPARSER_CONSTANTS = [
   ["Rh", [13.6057, "eV"], "Rydberg Constant"],
   ["amu", [1.66054e-27, "kg/amu"], "Atomic Mass"],
   ["eV", [1.60218e-19, "J/eV"], "Electron Volt"],
-  ["D", [3.336e-30, "C⋅m"], "Debye"]
+  ["D", [3.336e-30, "C⋅m/D"], "Debye"]
 ];
 
 const SETTER_LINE_REGEXP = /([a-zA-Z][a-zA-Z0-9]*) *= *(.*)/;
@@ -39,8 +39,10 @@ class Calculator {
     const lines = text.split('\n');
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
-      if (line === '' || line.startsWith('//')) {
-        result.push(['(blank)', '']);
+      if (line === '') {
+        result.push(['', '', null]);
+      } else if (line.startsWith('//')) {
+        result.push([line, '', null]);
       } else {
         try {
           const setterMatch = SETTER_LINE_REGEXP.exec(line);
@@ -59,13 +61,14 @@ class Calculator {
           }
 
           parsedLine[1] = TypeSimplifier.simplify(parsedLine[1]);
+          parsedLine[2] = null;
           result.push(parsedLine);
         } catch (error) {
           var errorMessage = error.message;
           if (error.location && error.location.start && error.location.start.column) {
             errorMessage = errorMessage + ' (column ' + error.location.start.column + ')';
           }
-          result.push([errorMessage, '']);
+          result.push([errorMessage, '', error]);
         }
       }
     }
