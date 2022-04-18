@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/sci-calc/static/js/runtime~main.b8694036.js"
   },
   {
-    "revision": "732fc57ea83a45937fb04590cd039fc1",
+    "revision": "af8378c4148aeb23731bb56b2aecd81a",
     "url": "/sci-calc/index.html"
   }
 ];
