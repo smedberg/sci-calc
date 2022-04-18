@@ -1,3 +1,8 @@
+#variables {
+    display: inline-block;
+    margin: 5px 25px 5px 25px;
+}
+
 #variables table {
     border-collapse: collapse;
     margin: 25px 0;
