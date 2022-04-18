@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "36c82d39e902f8222977",
-    "url": "/sci-calc/static/css/main.2799212c.chunk.css"
+    "revision": "41a8e1278053ab0bdf37",
+    "url": "/sci-calc/static/css/main.c46be315.chunk.css"
   },
   {
-    "revision": "36c82d39e902f8222977",
-    "url": "/sci-calc/static/js/main.36c82d39.chunk.js"
+    "revision": "41a8e1278053ab0bdf37",
+    "url": "/sci-calc/static/js/main.41a8e127.chunk.js"
   },
   {
     "revision": "af08dc77e4e76da41e54",
@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/sci-calc/static/js/runtime~main.b8694036.js"
   },
   {
-    "revision": "05ad01c80aaa0925dd70f948e4b2daad",
+    "revision": "732fc57ea83a45937fb04590cd039fc1",
     "url": "/sci-calc/index.html"
   }
 ];
