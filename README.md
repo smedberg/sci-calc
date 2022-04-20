@@ -27,9 +27,7 @@ Calculations are performed by parsing the text area line by line.  Parsing is do
 
 ## Future work
 
-* Normalize and reduce units
 * Calculate and track significant figures
-* Add more advanced calculations, e.g. sin, arcsin, pow, etc.
 
 
 # Legacy documentation

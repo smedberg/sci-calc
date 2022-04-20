@@ -25,7 +25,7 @@ class ResultsDisplay extends React.Component {
       valueClass = 'error';
     }
     return (
-      <div  id='results' data-testid="results-display-area">
+      <div id='results' data-testid='results-display-area'>
         <span className={valueClass}>{result[0]} {result[1]}</span>
       </div>
     );
