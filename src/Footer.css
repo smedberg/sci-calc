@@ -1,0 +1,9 @@
+#footer {
+    text-align: right;
+}
+
+#footer a {
+    font-style: italic;
+    margin: 25px;
+    font-size: 0.7em;
+}

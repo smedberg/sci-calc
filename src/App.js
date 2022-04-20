@@ -4,6 +4,7 @@ import FormulaInput from './FormulaInput';
 import ResultsDisplay from './ResultsDisplay';
 import ConstantsDisplay from './ConstantsDisplay';
 import VariablesDisplay from './VariablesDisplay';
+import Footer from './Footer';
 import Calculator from './Calculator';
 
 class App extends React.Component {
@@ -52,6 +53,7 @@ class App extends React.Component {
         <ResultsDisplay results={results} />
         <VariablesDisplay variables={variables} />
         <ConstantsDisplay/>
+        <Footer/>
       </span>
     );
   }
