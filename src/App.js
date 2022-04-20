@@ -34,7 +34,7 @@ class App extends React.Component {
 
   render() {
     let results = [];
-    let variables = new Map();
+    let variables = [];
     if (this.state.formula !== '') {
 
       // Store the formula into the URL hash, so that it can be shared, etc.
