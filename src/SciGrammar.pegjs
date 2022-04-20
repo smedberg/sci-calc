@@ -186,7 +186,7 @@ Symbol "symbol"
         return constValue;
       }
       log("In SciGrammar symbol processing, failed to find symbol " + symbolName);
-      expected("predefined symbol " + symbolName);
+      expected("predefined symbol");
     }
   }
 
