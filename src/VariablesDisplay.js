@@ -15,15 +15,15 @@ class VariablesDisplay extends React.Component {
   render() {
     const variables = this.props.variables;
 
-    if (0 === variables.size) {
+    if (0 === variables.length) {
       return (<span />);
     }
 
     const variableDisplays = [];
-    const variableNames = [...variables.keys()].sort();
-    for (let i = 0; i < variableNames.length; i++) {
-      const variableKey = variableNames[i];
-      const variableInfo = variables.get(variableKey);
+    for (let i = 0; i < variables.length; i++) {
+      const variable = variables[i];
+      const variableKey = variable[0];
+      const variableInfo = variable[1];
       const variableValue = variableInfo[0];
       const variableUnits = variableInfo[1];
       variableDisplays.push(<VariableDisplay symbol={variableKey} value={variableValue} units={variableUnits} key={variableKey}/>);

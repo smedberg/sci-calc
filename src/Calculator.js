@@ -34,7 +34,7 @@ class Calculator {
     // We're setting it on "window" so that the parser
     // code can read it.
     window.SCIPARSER_SYMBOLS_MAP = new Map(SCIPARSER_CONSTANTS);
-    const variables = new Map();
+    const variables = [];
     let result = [];
     const lines = text.split('\n');
     for (let i = 0; i < lines.length; i++) {
@@ -52,10 +52,21 @@ class Calculator {
             parsedLine = SciParse(setterMatch[2]);
             // Copy the value of the line to the global set of symbols,
             // overwriting any existing value.
-            // Also keep a map of ONLY the updated symbols, to display
-            // to users
-            window.SCIPARSER_SYMBOLS_MAP.set(setterMatch[1], parsedLine);
-            variables.set(setterMatch[1], parsedLine);
+            // Also keep an array of ONLY the updated symbols, to display
+            // to users.
+            const variableName = setterMatch[1];
+            window.SCIPARSER_SYMBOLS_MAP.set(variableName, parsedLine);
+            const variable = [variableName, parsedLine];
+            // If we've seen this variable before, replace the value
+            const matchesVariable = (element) => element[0] === variableName;
+            const idx = variables.findIndex(matchesVariable);
+            if (-1 === idx) {
+              // Variable not seen, record it
+              variables.push(variable);
+            } else {
+              // Variable previously seen, replace it
+              variables[idx] = variable;
+            }
           } else {
             parsedLine = SciParse(line);
           }
