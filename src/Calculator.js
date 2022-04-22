@@ -34,6 +34,7 @@ class Calculator {
     // We're setting it on "window" so that the parser
     // code can read it.
     window.SCIPARSER_SYMBOLS_MAP = new Map(SCIPARSER_CONSTANTS);
+    window.SCIPARSER_UNITS_MATCHER = Calculator.unitsMatch;
     const variables = [];
     let result = [];
     const lines = text.split('\n');
@@ -84,6 +85,12 @@ class Calculator {
       }
     }
     return [result, variables];
+  }
+
+  static unitsMatch(left, right) {
+    const leftUnits = TypeSimplifier.simplify(left);
+    const rightUnits = TypeSimplifier.simplify(right);
+    return ([leftUnits === rightUnits, leftUnits, rightUnits]);
   }
 }
 
