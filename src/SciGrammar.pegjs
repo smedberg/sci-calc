@@ -23,8 +23,20 @@ Expression
         const numLeft = result[0];
         const numRight = element[3][0];
         const unitLeft = result[1];
-        // TODO: Check if units of result[1] match units of element[3][1]
-        log("Handling addition, assuming that type ", result[1], " matches type ", element[3][1]);
+
+        // The logic is somewhat circuitous here.  We're generally just combining units
+        // syntactically in this file, e.g. "3 m * 4 m/s" becomes "12 m*m/s".  We're NOT
+        // simplifying to "12 m^2/s"- that's done later, outside this grammar.
+        //  However, for addition and subtraction, we want to check if units match.  To
+        // do so, we'll call an external helper that has to simplify anyway, and it returns
+        // the simplified units so that we can display a good error message.  We COULD use
+        // the simplified units instead of the more complex "raw" units.
+        if (window.SCIPARSER_UNITS_MATCHER !== undefined) {
+          const unitsMatch = window.SCIPARSER_UNITS_MATCHER(result[1], element[3][1]);
+          if (!unitsMatch[0]) {
+            expected("units '" + unitsMatch[1] + "' to match units '" + unitsMatch[2] + "'");
+          }
+        }
         var units = unitLeft;
         if (unitLeft == UNTYPED) {
           units = element[3][1];

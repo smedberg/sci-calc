@@ -9,6 +9,22 @@ function runTests(tests) {
   }
 }
 
+function failTests(tests) {
+  for (let i = 0; i < tests.length; i++) {
+    const test = tests[i];
+    const result = Calculator.calculate(test.input)[0];
+    expect(result.length).toEqual(test.expectedErrors.length);
+    for (let j = 0; j < test.expectedErrors.length; j++) {
+      const expectedErrorInfo = test.expectedErrors[j];
+      expect(result[j][0]).toEqual(expectedErrorInfo[0]);
+      const expectedError = expectedErrorInfo[1];
+      if (expectedError !== null) {
+        expect(result[j][2]).toEqual(expectedError);
+      }
+    }
+  }
+}
+
 it('handles numbers', () => {
   runTests([
     {
@@ -65,11 +81,11 @@ it('handles numbers', () => {
 it('handles addition', () => {
   runTests([
     {
-      input: '1 m + 1 s',
+      input: '1 m + 1 m',
       expectedCalcs: [[1 + 1, 'm', null]]
     },
     {
-      input: '1 k + 1.1',
+      input: '1 k + 1.1 k',
       expectedCalcs: [[1 + 1.1, 'k', null]]
     },
     {
@@ -89,7 +105,7 @@ it('handles addition', () => {
       expectedCalcs: [[2.2e3 + 500, 'untyped', null]]
     },
     {
-      input: '2.2e3 k + 500 + 800',
+      input: '2.2e3 k + 500 k + 800 k',
       expectedCalcs: [[2.2e3 + 500 + 800, 'k', null]]
     },
   ]);
@@ -98,11 +114,11 @@ it('handles addition', () => {
 it('handles subtraction', () => {
   runTests([
     {
-      input: '1 m - 1 s',
+      input: '1 m - 1 m',
       expectedCalcs: [[1 - 1, 'm', null]]
     },
     {
-      input: '1 k - 1.1',
+      input: '1 k - 1.1 k',
       expectedCalcs: [[1 - 1.1, 'k', null]]
     },
     {
@@ -122,7 +138,7 @@ it('handles subtraction', () => {
       expectedCalcs: [[2.2e3 - 500, 'untyped', null]]
     },
     {
-      input: '2.2e3 k - 500 m - 800 f',
+      input: '2.2e3 k - 500 k - 800 k',
       expectedCalcs: [[2.2e3 - 500 - 800, 'k', null]]
     },
   ]);
@@ -297,6 +313,27 @@ it('handles complex calculations', () => {
         [1, "untyped", null],
         [4, "untyped", null],
         [-1.362423776625e-19, "J", null]
+      ]
+    }
+  ]);
+});
+
+it('handles invalid unit combinations', () => {
+  failTests([
+    {
+      input: '2 m + 3 s\n' +
+        '2 m + 3 m',
+      expectedErrors: [
+        ["Expected units 'm' to match units 's' but \"2 m + 3 s\" found. (column 1)", new SyntaxError("Expected units 'm' to match units 's' but \"2 m + 3 s\" found.")],
+        [5, null]
+      ]
+    },
+    {
+      input: '2 m/s + 3 m/s\n' +
+        '2 s - 3 m',
+      expectedErrors: [
+        [5, null],
+        ["Expected units 's' to match units 'm' but \"2 s - 3 m\" found. (column 1)", new SyntaxError("Expected units 's' to match units 'm' but \"2 s - 3 m\" found.")]
       ]
     }
   ]);

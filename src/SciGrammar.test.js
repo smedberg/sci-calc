@@ -11,6 +11,13 @@ function runTests(tests) {
   }
 }
 
+function failTests(tests) {
+  for (let i = 0; i < tests.length; i++) {
+    const test = tests[i];
+    expect(() => { SciParse(test.input)}).toThrow();
+  }
+}
+
 it('handles numbers', () => {
   runTests([
     {
@@ -67,11 +74,11 @@ it('handles numbers', () => {
 it('handles addition', () => {
   runTests([
     {
-      input: '1 m + 1 s',
+      input: '1 m + 1 m',
       expectedCalcs: [1 + 1, 'm']
     },
     {
-      input: '1 k + 1.1',
+      input: '1 k + 1.1 k',
       expectedCalcs: [1 + 1.1, 'k']
     },
     {
@@ -91,7 +98,7 @@ it('handles addition', () => {
       expectedCalcs: [2.2e3 + 500, 'untyped']
     },
     {
-      input: '2.2e3 k + 500 + 800',
+      input: '2.2e3 k + 500 k + 800 k',
       expectedCalcs: [2.2e3 + 500 + 800, 'k']
     },
   ]);
@@ -100,11 +107,11 @@ it('handles addition', () => {
 it('handles subtraction', () => {
   runTests([
     {
-      input: '1 m - 1 s',
+      input: '1 m - 1 m',
       expectedCalcs: [1 - 1, 'm']
     },
     {
-      input: '1 k - 1.1',
+      input: '1 k - 1.1 k',
       expectedCalcs: [1 - 1.1, 'k']
     },
     {
@@ -124,7 +131,7 @@ it('handles subtraction', () => {
       expectedCalcs: [2.2e3 - 500, 'untyped']
     },
     {
-      input: '2.2e3 k - 500 m - 800 f',
+      input: '2.2e3 k - 500 k - 800 k',
       expectedCalcs: [2.2e3 - 500 - 800, 'k']
     },
   ]);
@@ -275,6 +282,35 @@ it('handles other cases', () => {
     {
       input: '1 (kg*(m/s)^2)/joule',
       expectedCalcs: [1, '(kg*(m/s)^2)/joule']
+    }
+  ]);
+});
+
+it('calls helper to check units for addition and subtraction', () => {
+  // SciParser should fail when helper function returns false
+  window.SCIPARSER_UNITS_MATCHER = () => { return [false, 'left', 'right'] };
+  failTests([
+    {
+      input: '1 + 2',
+      expectedCalcs: [3, 'untyped']
+    }
+  ]);
+
+  // SciParser should succeed when helper function returns true
+  window.SCIPARSER_UNITS_MATCHER = () => { return [true, 'left', 'right'] };
+  runTests([
+    {
+      input: '1 + 2',
+      expectedCalcs: [3, 'untyped']
+    }
+  ]);
+
+  // SciParser should succeed when helper function is undefined
+  window.SCIPARSER_UNITS_MATCHER = undefined;
+  runTests([
+    {
+      input: '1 + 2',
+      expectedCalcs: [3, 'untyped']
     }
   ]);
 });

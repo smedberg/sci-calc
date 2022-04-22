@@ -28,7 +28,6 @@ Calculations are performed by parsing the text area line by line.  Parsing is do
 ## Future work
 
 * Calculate and track significant figures
-* Verify that units match on addition, subtraction
 
 
 # Legacy documentation
