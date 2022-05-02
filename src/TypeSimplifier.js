@@ -1,4 +1,5 @@
 import { parse as UnitsParse } from './UnitsGrammar'
+import { UNTYPED } from './Calculator'
 
 class TypeSimplifier {
   static simplify(text) {
@@ -28,6 +29,10 @@ class TypeSimplifier {
       } else {
         destination.push(parsedItem.units + '^' + absoluteExponent);
       }
+    }
+
+    if (0 === numerator.length && 0 === denominator.length) {
+      return UNTYPED;
     }
 
     let retval;

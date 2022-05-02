@@ -1,13 +1,15 @@
 import { parse as SciParse } from './SciGrammar'
 import TypeSimplifier from './TypeSimplifier'
 
+const UNTYPED = "untyped";
+
 // A global used in SciGrammar.pegjs.  We can't pass in
 // arguments, but we share a global environment.
 // We can also dynamically modify this map, e.g.
 // by adding new constants at runtime.
 const SCIPARSER_CONSTANTS = [
-  ["Pi", [Math.PI, "untyped"], "Pi"],
-  ["E", [Math.E, "untyped"], "Euler's Constant"],
+  ["Pi", [Math.PI, UNTYPED], "Pi"],
+  ["E", [Math.E, UNTYPED], "Euler's Constant"],
   ["c", [2.99792e8, "m/s"], "Speed of Light"],
   ["e", [1.60218e-19, "C"], "Elementary Charge"],
   ["Me", [9.10938e-31, "kg"], "Electron Mass"],
@@ -95,4 +97,4 @@ class Calculator {
 }
 
 export default Calculator
-export {SCIPARSER_CONSTANTS}
+export {SCIPARSER_CONSTANTS, UNTYPED}
