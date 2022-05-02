@@ -106,6 +106,10 @@ it('parses units', () => {
     {
       input: 'm/(kg/kg)',
       expectedResult: [{units: 'm', exponent: 1}]
+    },
+    {
+      input: '(m^2)^0.5',
+      expectedResult: [{units: 'm', exponent: 1}]
     }
   ]);
 });

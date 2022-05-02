@@ -31,10 +31,11 @@ Expression
         // do so, we'll call an external helper that has to simplify anyway, and it returns
         // the simplified units so that we can display a good error message.  We COULD use
         // the simplified units instead of the more complex "raw" units.
-        if (window.SCIPARSER_UNITS_MATCHER !== undefined) {
-          const unitsMatch = window.SCIPARSER_UNITS_MATCHER(result[1], element[3][1]);
-          if (!unitsMatch[0]) {
-            expected("units '" + unitsMatch[1] + "' to match units '" + unitsMatch[2] + "'");
+        if (window.SCIPARSER_UNITS_SIMPLIFIER !== undefined) {
+          const unitsLeft = window.SCIPARSER_UNITS_SIMPLIFIER(result[1]);
+          const unitsRight = window.SCIPARSER_UNITS_SIMPLIFIER(element[3][1]);
+          if (unitsLeft !== unitsRight) {
+            expected("units '" + unitsLeft + "' to match units '" + unitsRight + "'");
           }
         }
         var units = unitLeft;
@@ -117,7 +118,9 @@ UnaryFunc "unary function"
     log("In SciGrammar unary function processing, func is ", func, ", expr is ", expr);
     const funcName = func[0] + func[1].join('');
     const value = expr[0];
+    const units = expr[1];
 
+    // TODO: Should we verify that value is unitless for most of these cases?
     switch (funcName) {
       case "sin":
         return [Math.sin(value), UNTYPED];
@@ -126,7 +129,7 @@ UnaryFunc "unary function"
       case "tan":
         return [Math.tan(value), UNTYPED];
       case "abs":
-        return [Math.abs(value), UNTYPED];
+        return [Math.abs(value), units];
       case "acos":
         return [Math.acos(value), UNTYPED];
       case "acosh":
@@ -140,9 +143,9 @@ UnaryFunc "unary function"
       case "atanh":
         return [Math.atanh(value), UNTYPED];
       case "cbrt":
-        return [Math.cbrt(value), UNTYPED];
+        return [Math.cbrt(value), '(' + units + ')^' + (1/3)];
       case "ceil":
-        return [Math.ceil(value), UNTYPED];
+        return [Math.ceil(value), units];
       case "clz32":
         return [Math.clz32(value), UNTYPED];
       case "cos":
@@ -154,9 +157,9 @@ UnaryFunc "unary function"
       case "expm1":
         return [Math.expm1(value), UNTYPED];
       case "floor":
-        return [Math.floor(value), UNTYPED];
+        return [Math.floor(value), units];
       case "fround":
-        return [Math.fround(value), UNTYPED];
+        return [Math.fround(value), units];
       case "log":
         return [Math.log(value), UNTYPED];
       case "log1p":
@@ -166,19 +169,19 @@ UnaryFunc "unary function"
       case "log2":
         return [Math.log2(value), UNTYPED];
       case "round":
-        return [Math.round(value), UNTYPED];
+        return [Math.round(value), units];
       case "sin":
         return [Math.sin(value), UNTYPED];
       case "sinh":
         return [Math.sinh(value), UNTYPED];
       case "sqrt":
-        return [Math.sqrt(value), UNTYPED];
+        return [Math.sqrt(value), '(' + units + ')^0.5'];
       case "tan":
         return [Math.tan(value), UNTYPED];
       case "tanh":
         return [Math.tanh(value), UNTYPED];
       case "trunc":
-        return [Math.trunc(value), UNTYPED];
+        return [Math.trunc(value), units];
       default:
         expected("unrecognized unary function '" + funcName + "'");
     }
