@@ -237,6 +237,14 @@ it('handles exponentiation', () => {
     {
       input: '2 + 3 ^ 4 * 5',
       expectedCalcs: [[2 + Math.pow(3, 4) * 5, 'untyped', null]]
+    },
+    {
+      input: 'sqrt(4 m^2)',
+      expectedCalcs: [[2, 'm', null]]
+    },
+    {
+      input: 'cbrt(4 m^6)',
+      expectedCalcs: [[Math.cbrt(4), 'm^2', null]]
     }
   ]);
 });

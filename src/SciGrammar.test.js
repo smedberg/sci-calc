@@ -273,6 +273,38 @@ it('handles unary functions', () => {
     {
       input: 'acos(0.123)',
       expectedCalcs: [Math.acos(0.123), 'untyped']
+    },
+    {
+      input: 'sqrt(4 m^2)',
+      expectedCalcs: [2, '(m^2)^0.5']
+    },
+    {
+      input: 'cbrt(4 m^3)',
+      expectedCalcs: [Math.cbrt(4), '(m^3)^0.3333333333333333']
+    },
+    {
+      input: 'abs(-4 m^2)',
+      expectedCalcs: [4, 'm^2']
+    },
+    {
+      input: 'ceil(1.23 m^2)',
+      expectedCalcs: [2, 'm^2']
+    },
+    {
+      input: 'floor(1.23 m^2)',
+      expectedCalcs: [1, 'm^2']
+    },
+    {
+      input: 'fround(1.23 m^2)',
+      expectedCalcs: [Math.fround(1.23), 'm^2']
+    },
+    {
+      input: 'round(1.23 m^2)',
+      expectedCalcs: [1, 'm^2']
+    },
+    {
+      input: 'trunc(1.99 m^2)',
+      expectedCalcs: [1, 'm^2']
     }
   ]);
 });
@@ -287,8 +319,9 @@ it('handles other cases', () => {
 });
 
 it('calls helper to check units for addition and subtraction', () => {
-  // SciParser should fail when helper function returns false
-  window.SCIPARSER_UNITS_MATCHER = () => { return [false, 'left', 'right'] };
+  // SciParser should fail when helper function returns items that don't match
+  let counter = 0;
+  window.SCIPARSER_UNITS_SIMPLIFIER = () => { counter = counter + 1; return 'testing: ' + (num % 2 == 0); };
   failTests([
     {
       input: '1 + 2',
@@ -296,8 +329,8 @@ it('calls helper to check units for addition and subtraction', () => {
     }
   ]);
 
-  // SciParser should succeed when helper function returns true
-  window.SCIPARSER_UNITS_MATCHER = () => { return [true, 'left', 'right'] };
+  // SciParser should succeed when helper function returns items that do match
+  window.SCIPARSER_UNITS_SIMPLIFIER = () => { return 'testing'; };
   runTests([
     {
       input: '1 + 2',
@@ -306,7 +339,7 @@ it('calls helper to check units for addition and subtraction', () => {
   ]);
 
   // SciParser should succeed when helper function is undefined
-  window.SCIPARSER_UNITS_MATCHER = undefined;
+  window.SCIPARSER_UNITS_SIMPLIFIER = undefined;
   runTests([
     {
       input: '1 + 2',

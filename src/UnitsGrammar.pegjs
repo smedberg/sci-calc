@@ -85,7 +85,7 @@ Term
     }
 
 Exponent
-  = head:Factor tail:(ws "^" ws Integer)* {
+  = head:Factor tail:(ws "^" ws Number)* {
       log("In UnitsGrammar exponent processing, head is ", head, ", tail is ", tail);
       return tail.reduce(function(result, element) {
         log("In UnitsGrammar exponent processing, result is ", result, ", element is ", element, ", type: ", typeof(element[3]));
@@ -128,10 +128,20 @@ Units "units"
     return ret;
   }
 
+  
+Number "number"
+  = Float /Integer
+
 Integer "integer"
   = ws [-+]?[0-9]+ {
     log("In UnitsGrammar Integer processing, text is ", text());
     return parseInt(text(), 10);
+  }
+
+Float "float"
+  = ws [-+]?[0-9]+ "." [0-9]* {
+    log("In UnitsGrammar Float processing, text is ", text());
+    return parseFloat(text(), 10);
   }
 
 ws "whitespace"
