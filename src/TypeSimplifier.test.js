@@ -53,7 +53,7 @@ it('simplifies', () => {
     },
     {
       input: '(km km km km km km)/km^6',
-      expected: ''
+      expected: 'untyped'
     },
     {
       input: '((J⋅s)⋅(m/s))/((eV)⋅(J/eV))',
@@ -74,6 +74,10 @@ it('simplifies', () => {
     {
       input: 'C^2/(J*m)^-2',
       expected: 'C^2⋅J^2⋅m^2'
+    },
+    {
+      input: 'K/K',
+      expected: 'untyped'
     }
   ]);
 });

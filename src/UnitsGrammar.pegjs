@@ -21,7 +21,12 @@
       const unit = unitsArray[i];
       log("In reduceUnits, unit is ", unit);
       if (combined.has(unit.units)) {
-        combined.set(unit.units, combined.get(unit.units) + unit.exponent);
+        const newExponent = combined.get(unit.units) + unit.exponent;
+        if (0 === newExponent) {
+          combined.delete(unit.units);
+        } else {
+          combined.set(unit.units, newExponent);
+        }
       } else {
         combined.set(unit.units, unit.exponent);
       }

@@ -217,6 +217,10 @@ it('handles division', () => {
       input: '2.2e3 / 500 / 800',
       expectedCalcs: [[2.2e3 / 500 / 800, 'untyped', null]]
     },
+    {
+      input: '60.1 K / 303 K',
+      expectedCalcs: [[60.1 / 303, 'untyped', null]]
+    },
   ]);
 });
 
