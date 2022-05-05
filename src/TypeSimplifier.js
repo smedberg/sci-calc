@@ -24,7 +24,9 @@ class TypeSimplifier {
       }
 
       const absoluteExponent = Math.abs(parsedItem.exponent);
-      if (1 === absoluteExponent) {
+      if (UNTYPED === parsedItem.units) {
+        // Don't include untyped items, e.g. "untyped^0.5"
+      } else if (1 === absoluteExponent) {
         destination.push(parsedItem.units);
       } else {
         destination.push(parsedItem.units + '^' + absoluteExponent);
