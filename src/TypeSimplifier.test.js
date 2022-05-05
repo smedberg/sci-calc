@@ -78,6 +78,10 @@ it('simplifies', () => {
     {
       input: 'K/K',
       expected: 'untyped'
+    },
+    {
+      input: 'untyped^0.5',
+      expected: 'untyped'
     }
   ]);
 });
