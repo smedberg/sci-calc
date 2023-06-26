@@ -6,6 +6,7 @@ import ConstantsDisplay from './ConstantsDisplay';
 import VariablesDisplay from './VariablesDisplay';
 import Footer from './Footer';
 import Calculator from './Calculator';
+import ReactGA from 'react-ga4';
 
 class App extends React.Component {
   constructor() {
@@ -18,6 +19,9 @@ class App extends React.Component {
     };
 
     this.onHashChange = this.onHashChange.bind(this);
+    
+    ReactGA.initialize('G-T27XTHBZD2');
+    ReactGA.send({ hitType: 'pageview', page: '/', title: 'SciCalc' });
   }
 
   componentDidMount() {
